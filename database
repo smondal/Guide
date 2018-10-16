@@ -1,0 +1,10 @@
+sudo -i -u root
+root@SEZ75CROSSCODE:~# psql
+Password: 
+psql: FATAL:  database "root" does not exist
+root@SEZ75CROSSCODE:~# psql -d factor75_development
+Password: 
+psql (9.5.13)
+Type "help" for help.
+
+factor75_development=# \dt

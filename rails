@@ -1,0 +1,10 @@
+1. For creating secret key
+   SecureRandom.hex(64)
+
+   RAILS_ENV=production rake secret # this will create secret key for you
+
+   bin/rails credentials:edit  #This will create master.key file inside config
+   
+   Rails.application.credentials  # this will show your master key
+
+

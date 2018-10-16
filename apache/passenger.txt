@@ -1,0 +1,118 @@
+1.
+ * To install Apache 2:
+   Please install it with apt-get install apache2
+
+ * To install Apache 2 development headers:
+   Please install it with apt-get install apache2-dev
+
+ * To install Apache Portable Runtime (APR) development headers:
+   Please install it with apt-get install libapr1-dev
+
+ * To install Apache Portable Runtime Utility (APU) development headers:
+   Please install it with apt-get install libaprutil1-dev
+
+If the aforementioned instructions didn't solve your problem, then please take
+a look at our documentation for troubleshooting tips:
+
+  https://www.phusionpassenger.com/library/install/apache/
+  https://www.phusionpassenger.com/library/admin/apache/troubleshooting/
+
+
+2. For finding PassengerRoot  here is the command
+passenger-config --root
+
+3. For Finding PassengerDefaultRuby
+passenger-config --ruby-command
+  
+4. checking passenger is install properly: 
+rvmsudo passenger-config validate-install
+
+5.  
+   LoadModule passenger_module /home/sandip/.rvm/gems/ruby-2.5.1@services/gems/passenger-5.3.5/buildout/apache2/mod_passenger.so
+   <IfModule mod_passenger.c>
+     PassengerRoot /home/sandip/.rvm/gems/ruby-2.5.1@services/gems/passenger-5.3.5
+     PassengerDefaultRuby /home/sandip/.rvm/gems/ruby-2.5.1@services/wrappers/ruby
+   </IfModule>
+   
+6. Load balancing
+
+$a2enmod proxy
+$a2enmod proxy_http
+$a2enmod proxy_balancer
+$a2enmod lbmethod_byrequests
+
+
+Listen 8084
+<VirtualHost *:8084>
+	# The ServerName directive sets the request scheme, hostname and port that
+	# the server uses to identify itself. This is used when creating
+	# redirection URLs. In the context of virtual hosts, the ServerName
+	# specifies what hostname must appear in the request's Host: header to
+	# match this virtual host. For the default virtual host (this file) this
+	# value is not decisive as it is used as a last resort host regardless.
+	# However, you must set it for any further virtual host explicitly.
+	#ServerName www.example.com
+
+  RackEnv development
+  RailsEnv development
+  ServerAdmin admin@example.com
+  ServerName example.com
+  DocumentRoot /home/sandip/sandip/project/rservices/public
+
+  <Directory "/home/sandip/sandip/project/rservices/public">
+    Options FollowSymLinks
+    AllowOverride all
+    Require all granted
+  </Directory>
+
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+
+Listen 8083
+<VirtualHost *:8083>
+  # The ServerName directive sets the request scheme, hostname and port that
+  # the server uses to identify itself. This is used when creating
+  # redirection URLs. In the context of virtual hosts, the ServerName
+  # specifies what hostname must appear in the request's Host: header to
+  # match this virtual host. For the default virtual host (this file) this
+  # value is not decisive as it is used as a last resort host regardless.
+  # However, you must set it for any further virtual host explicitly.
+  #ServerName www.example.com
+
+  RackEnv development
+  RailsEnv development
+  ServerAdmin admin@example.com
+  ServerName example.com
+  DocumentRoot /home/sandip/sandip/project/rservices/public
+
+  <Directory "/home/sandip/sandip/project/rservices/public">
+    Options FollowSymLinks
+    AllowOverride all
+    Require all granted
+  </Directory>
+
+  ErrorLog ${APACHE_LOG_DIR}/error.log
+  CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+
+
+Listen 80
+<VirtualHost *:80>
+  <Proxy "balancer://mycluster">
+    BalancerMember "http://10.191.74.100:8083/" route=1
+    BalancerMember "http://10.191.74.100:8084/" route=2
+    ProxySet lbmethod=byrequests
+  </Proxy>
+  ProxyPass        / balancer://mycluster/
+  ProxyPassReverse / balancer://mycluster/
+
+
+  ProxyPreserveHost On  
+  ProxyPass /assets !  
+  
+</VirtualHost>
+

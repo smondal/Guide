@@ -1,0 +1,14 @@
+Apache support event, worker and pefork
+
+1. Does the system support threads?
+
+2. Does the system support thread-safe polling (Specifically, the kqueue and epoll functions)?
+
+If the answer to both questions is 'yes', the default MPM is event.
+
+If The answer to #1 is 'yes', but the answer to #2 is 'no', the default will be worker.
+
+If the answer to both questions is 'no', then the default MPM will be prefork.
+
+
+https://tecadmin.net/apache-mpm-prefork-and-worker-and-event/
