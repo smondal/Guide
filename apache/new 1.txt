@@ -1,0 +1,195 @@
+sandip@SEZ75CROSSCODE:~/sandip/project/rservices$ ab -n 1000 -c 50 http://localhost:80/
+This is ApacheBench, Version 2.3 <$Revision: 1706008 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        Apache/2.4.18
+Server Hostname:        localhost
+Server Port:            80
+
+Document Path:          /
+Document Length:        34700 bytes
+
+Concurrency Level:      50
+Time taken for tests:   38.775 seconds
+Complete requests:      1000
+Failed requests:        77
+   (Connect: 0, Receive: 0, Length: 77, Exceptions: 0)
+Non-2xx responses:      77
+Total transferred:      32878525 bytes
+HTML transferred:       32063058 bytes
+Requests per second:    25.79 [#/sec] (mean)
+Time per request:       1938.746 [ms] (mean)
+Time per request:       38.775 [ms] (mean, across all concurrent requests)
+Transfer rate:          828.06 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:     0 1889 596.7   2082    2433
+Waiting:        0 1889 596.7   2082    2433
+Total:          0 1889 596.7   2082    2433
+
+Percentage of the requests served within a certain time (ms)
+  50%   2082
+  66%   2118
+  75%   2145
+  80%   2157
+  90%   2203
+  95%   2247
+  98%   2301
+  99%   2342
+ 100%   2433 (longest request)
+
+ 
+ 
+ <IfModule mpm_event_module>
+	StartServers			 10
+	MinSpareThreads		 25
+	MaxSpareThreads		 75
+	ThreadLimit			   100
+	ThreadsPerChild		 255
+	MaxRequestWorkers	 2000
+	MaxConnectionsPerChild   0
+</IfModule>
+
+
+ ab -n 1000 -c 50 http://localhost:80/
+This is ApacheBench, Version 2.3 <$Revision: 1706008 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        Apache/2.4.18
+Server Hostname:        localhost
+Server Port:            80
+
+Document Path:          /
+Document Length:        12986 bytes
+
+Concurrency Level:      50
+Time taken for tests:   4.144 seconds
+Complete requests:      1000
+Failed requests:        143
+   (Connect: 0, Receive: 0, Length: 143, Exceptions: 0)
+Non-2xx responses:      143
+Total transferred:      11964217 bytes
+HTML transferred:       11193924 bytes
+Requests per second:    241.34 [#/sec] (mean)
+Time per request:       207.178 [ms] (mean)
+Time per request:       4.144 [ms] (mean, across all concurrent requests)
+Transfer rate:          2819.75 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:     0  201  81.8    231     385
+Waiting:        0  201  81.8    231     385
+Total:          0  202  81.8    231     385
+
+Percentage of the requests served within a certain time (ms)
+  50%    231
+  66%    237
+  75%    241
+  80%    244
+  90%    251
+  95%    277
+  98%    321
+  99%    344
+ 100%    385 (longest request)
+ 
+ 
+ ======================================================================
+ 
+ <IfModule mpm_event_module>
+	StartServers			 20
+	MinSpareThreads		 25
+	MaxSpareThreads		 75
+	ThreadLimit			   100
+	ThreadsPerChild		 255
+	MaxRequestWorkers	 4000
+	MaxConnectionsPerChild   0
+</IfModule>
+
+ab -n 1000 -c 50 http://localhost:80/
+This is ApacheBench, Version 2.3 <$Revision: 1706008 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+Completed 100 requests
+Completed 200 requests
+Completed 300 requests
+Completed 400 requests
+Completed 500 requests
+Completed 600 requests
+Completed 700 requests
+Completed 800 requests
+Completed 900 requests
+Completed 1000 requests
+Finished 1000 requests
+
+
+Server Software:        Apache/2.4.18
+Server Hostname:        localhost
+Server Port:            80
+
+Document Path:          /
+Document Length:        12986 bytes
+
+Concurrency Level:      50
+Time taken for tests:   4.748 seconds
+Complete requests:      1000
+Failed requests:        0
+Total transferred:      13854304 bytes
+HTML transferred:       12986000 bytes
+Requests per second:    210.61 [#/sec] (mean)
+Time per request:       237.411 [ms] (mean)
+Time per request:       4.748 [ms] (mean, across all concurrent requests)
+Transfer rate:          2849.41 [Kbytes/sec] received
+
+Connection Times (ms)
+              min  mean[+/-sd] median   max
+Connect:        0    0   0.1      0       1
+Processing:    36  232  26.3    235     270
+Waiting:       36  232  26.3    235     269
+Total:         37  232  26.2    235     270
+
+Percentage of the requests served within a certain time (ms)
+  50%    235
+  66%    239
+  75%    242
+  80%    243
+  90%    247
+  95%    250
+  98%    256
+  99%    259
+ 100%    270 (longest request)
+

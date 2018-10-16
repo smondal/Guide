@@ -33,13 +33,20 @@ rvmsudo passenger-config validate-install
      PassengerRoot /home/sandip/.rvm/gems/ruby-2.5.1@services/gems/passenger-5.3.5
      PassengerDefaultRuby /home/sandip/.rvm/gems/ruby-2.5.1@services/wrappers/ruby
    </IfModule>
-   
-6. Load balancing
+ 
+8. How to passenger start
+bundle exec passenger start
+
+9. How to calculate memory used in apache here is the document
+http://dasunhegoda.com/configure-apache-multi-processing-modules-mpms/531/
+ 
+10. Load balancing
 
 $a2enmod proxy
 $a2enmod proxy_http
 $a2enmod proxy_balancer
 $a2enmod lbmethod_byrequests
+
 
 
 Listen 8084
@@ -53,15 +60,15 @@ Listen 8084
 	# However, you must set it for any further virtual host explicitly.
 	#ServerName www.example.com
 
-  RackEnv development
-  RailsEnv development
+  RackEnv production
+  RailsEnv production
   ServerAdmin admin@example.com
   ServerName example.com
   DocumentRoot /home/sandip/sandip/project/rservices/public
 
   <Directory "/home/sandip/sandip/project/rservices/public">
     Options FollowSymLinks
-    AllowOverride all
+    AllowOverride none
     Require all granted
   </Directory>
 
@@ -82,15 +89,15 @@ Listen 8083
   # However, you must set it for any further virtual host explicitly.
   #ServerName www.example.com
 
-  RackEnv development
-  RailsEnv development
+  RackEnv production
+  RailsEnv production
   ServerAdmin admin@example.com
   ServerName example.com
   DocumentRoot /home/sandip/sandip/project/rservices/public
 
   <Directory "/home/sandip/sandip/project/rservices/public">
     Options FollowSymLinks
-    AllowOverride all
+    AllowOverride none
     Require all granted
   </Directory>
 
@@ -99,20 +106,22 @@ Listen 8083
 </VirtualHost>
 
 
-
 Listen 80
 <VirtualHost *:80>
+
+  <Location /balancer-manager> 
+    SetHandler balancer-manager
+    Require host localhost
+    Require all granted
+  </Location>
+  ProxyPass /balancer-manager !
+
   <Proxy "balancer://mycluster">
     BalancerMember "http://10.191.74.100:8083/" route=1
     BalancerMember "http://10.191.74.100:8084/" route=2
-    ProxySet lbmethod=byrequests
+    #ProxySet lbmethod=bytraffic
   </Proxy>
   ProxyPass        / balancer://mycluster/
   ProxyPassReverse / balancer://mycluster/
-
-
-  ProxyPreserveHost On  
-  ProxyPass /assets !  
-  
+ 
 </VirtualHost>
-
