@@ -1,0 +1,11 @@
+1. Ruby eval vs exec
+
+All variations of {instance|module|class}_{eval|exec} change the current context, i.e. the value for self:
+
+class Array
+  p self                     # prints "Array"
+  43.instance_eval{ p self } # prints "43"
+end
+Now for the differences. The eval versions accepts a string or a block, while the exec versions only accept a block but allow you to pass parameters to it:
+
+

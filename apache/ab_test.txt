@@ -1,0 +1,23 @@
+How to solve following problem
+
+ab -l -n 100000 -c 4000 http://localhost:80/
+This is ApacheBench, Version 2.3 <$Revision: 1706008 $>
+Copyright 1996 Adam Twiss, Zeus Technology Ltd, http://www.zeustech.net/
+Licensed to The Apache Software Foundation, http://www.apache.org/
+
+Benchmarking localhost (be patient)
+socket: Too many open files (24)
+
+1. First check your serve file descriptor limit
+$ ulimit -n 
+1026
+
+Yo need to increase the ulimit parameters 
+$ ulimit -n 4000
+
+But you can not increse ulimit to high
+$ ulimit -n 10000
+bash: ulimit: open files: cannot modify limit: Operation not permitted
+
+2687
+690
